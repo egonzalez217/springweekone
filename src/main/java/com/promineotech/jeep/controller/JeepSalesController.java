@@ -2,6 +2,8 @@ package com.promineotech.jeep.controller;
 
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.promineotech.jeep.entity.Jeep;
+import com.promineotech.jeep.entity.JeepModel;
 
+import io.swagger.v3.core.util.Constants;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,18 +37,24 @@ public interface JeepSalesController {
 							responseCode = "200",
 							description = "List of jeeps returned",
 							content = @Content(
-									mediaType = "aplication/json", 
+									mediaType = "application/json", 
 									schema = @Schema(
 											implementation = Jeep.class))),
 					@ApiResponse(
 							responseCode = "400",
-							description = "List of jeeps The request parameters are invalid"),
+							description = "List of jeeps The request parameters are invalid",
+							content = @Content(
+									mediaType = "application/json")),
 					@ApiResponse(
 							responseCode = "404", 
-							description = "No jeeps were found with the input criteria"),
+							description = "No jeeps were found with the input criteria",
+							content = @Content(
+									mediaType = "application/json")),
 					@ApiResponse(
 							responseCode = "500", 
-							description = "An unplanned error occured")
+							description = "An unplanned error occured",
+							content = @Content(
+									mediaType = "application/json"))
 
 			},
 			parameters = {
@@ -64,7 +74,7 @@ public interface JeepSalesController {
 	@ResponseStatus(code = HttpStatus.OK)
 	List<Jeep> fetchJeeps(
 			@RequestParam(required = false) 
-		String model, 
+		JeepModel model, 
 			@RequestParam(required = false)
 		String trim);
 	//@Formatter:on		
